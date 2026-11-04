@@ -1,4 +1,11 @@
--- Tabla de Usuarios (Gestión de Operadores y Admins)
+ PROYECTO: AUTOS COLOMBIA - SISTEMA DE GESTIÓN DE PARQUEADERO
+
+DROP TABLE IF EXISTS registro_acceso CASCADE;
+DROP TABLE IF EXISTS suscripcion_mensual CASCADE;
+DROP TABLE IF EXISTS vehiculo CASCADE;
+DROP TABLE IF EXISTS celda CASCADE;
+DROP TABLE IF EXISTS usuario CASCADE;
+
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -8,20 +15,17 @@ CREATE TABLE usuario (
     estado VARCHAR(10) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Inactivo'))
 );
 
--- Tabla de Celdas (70 carros y 10 motos)
 CREATE TABLE celda (
     id_celda VARCHAR(10) PRIMARY KEY,
     tipo_vehiculo VARCHAR(10) CHECK (tipo_vehiculo IN ('Carro', 'Moto')),
     estado VARCHAR(15) DEFAULT 'Disponible' CHECK (estado IN ('Disponible', 'Ocupado', 'Mantenimiento'))
 );
 
--- Tabla de Vehículos
 CREATE TABLE vehiculo (
     placa VARCHAR(10) PRIMARY KEY,
     tipo_vehiculo VARCHAR(10) CHECK (tipo_vehiculo IN ('Carro', 'Moto'))
 );
 
--- Tabla de Suscripciones Mensuales (Datos para comprobar vigencia)
 CREATE TABLE suscripcion_mensual (
     id_suscripcion SERIAL PRIMARY KEY,
     placa VARCHAR(10) REFERENCES vehiculo(placa),
@@ -31,7 +35,6 @@ CREATE TABLE suscripcion_mensual (
     estado_pago VARCHAR(15) DEFAULT 'Vigente' CHECK (estado_pago IN ('Vigente', 'Vencido'))
 );
 
--- Tabla de Registro de Acceso (Validación realizada al ingresar)
 CREATE TABLE registro_acceso (
     id_registro SERIAL PRIMARY KEY,
     placa VARCHAR(10) REFERENCES vehiculo(placa),
@@ -44,4 +47,17 @@ CREATE TABLE registro_acceso (
     total_pagado DECIMAL(10,2) DEFAULT 0.00,
     estado_acceso VARCHAR(15) DEFAULT 'Activo' CHECK (estado_acceso IN ('Activo', 'Finalizado'))
 );
- 
+
+
+INSERT INTO usuario (nombre, usuario, password_hash, rol) VALUES
+('Carlos Pérez', 'operador1', 'hash_secure_123', 'Operador'),
+('Laura Gómez', 'admin1', 'hash_secure_456', 'Administrador');
+
+INSERT INTO celda (id_celda, tipo_vehiculo, estado) VALUES
+('C-01', 'Carro', 'Disponible'),
+('M-01', 'Moto', 'Disponible');
+
+INSERT INTO vehiculo (placa, tipo_vehiculo) VALUES ('KLY-892', 'Carro');
+
+INSERT INTO suscripcion_mensual (placa, nombre_propietario, fecha_inicio, fecha_vencimiento, estado_pago)
+VALUES ('KLY-892', 'Manuela Betancur', '2026-11-01', '2026-12-01', 'Vigente');
