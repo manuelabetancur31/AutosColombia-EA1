@@ -44,3 +44,4 @@ CREATE TABLE registro_acceso (
     total_pagado DECIMAL(10,2) DEFAULT 0.00,
     estado_acceso VARCHAR(15) DEFAULT 'Activo' CHECK (estado_acceso IN ('Activo', 'Finalizado'))
 );
+ 
