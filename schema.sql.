@@ -66,4 +66,4 @@ INSERT INTO celda (id_celda, tipo_vehiculo, estado) VALUES
 INSERT INTO vehiculo (placa, tipo_vehiculo) VALUES ('KLY-892', 'Carro');
 
 INSERT INTO suscripcion_mensual (placa, nombre_propietario, fecha_inicio, fecha_vencimiento, estado_pago)
-VALUES ('KLY-892', 'Manuela Betancur', '2026-11-01', '2026-12-01', 'Vigente'); 
+VALUES ('KLY-892', 'Manuela Betancur', '2026-11-01', '2026-12-01', 'Vigente');
