@@ -1,4 +1,5 @@
- PROYECTO: AUTOS COLOMBIA - SISTEMA DE GESTIÓN DE PARQUEADERO
+-- PROYECTO: AUTOS COLOMBIA - SISTEMA DE GESTIÓN DE PARQUEADERO
+-- ENTREGAS: EA1 y EA2
 
 DROP TABLE IF EXISTS registro_acceso CASCADE;
 DROP TABLE IF EXISTS suscripcion_mensual CASCADE;
@@ -6,6 +7,7 @@ DROP TABLE IF EXISTS vehiculo CASCADE;
 DROP TABLE IF EXISTS celda CASCADE;
 DROP TABLE IF EXISTS usuario CASCADE;
 
+-- Tabla de Usuarios
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -15,17 +17,20 @@ CREATE TABLE usuario (
     estado VARCHAR(10) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Inactivo'))
 );
 
+-- Tabla de Celdas
 CREATE TABLE celda (
     id_celda VARCHAR(10) PRIMARY KEY,
     tipo_vehiculo VARCHAR(10) CHECK (tipo_vehiculo IN ('Carro', 'Moto')),
     estado VARCHAR(15) DEFAULT 'Disponible' CHECK (estado IN ('Disponible', 'Ocupado', 'Mantenimiento'))
 );
 
+-- Tabla de Vehículos
 CREATE TABLE vehiculo (
     placa VARCHAR(10) PRIMARY KEY,
     tipo_vehiculo VARCHAR(10) CHECK (tipo_vehiculo IN ('Carro', 'Moto'))
 );
 
+-- Tabla de Suscripciones Mensuales
 CREATE TABLE suscripcion_mensual (
     id_suscripcion SERIAL PRIMARY KEY,
     placa VARCHAR(10) REFERENCES vehiculo(placa),
@@ -35,6 +40,7 @@ CREATE TABLE suscripcion_mensual (
     estado_pago VARCHAR(15) DEFAULT 'Vigente' CHECK (estado_pago IN ('Vigente', 'Vencido'))
 );
 
+-- Tabla de Registro de Acceso
 CREATE TABLE registro_acceso (
     id_registro SERIAL PRIMARY KEY,
     placa VARCHAR(10) REFERENCES vehiculo(placa),
@@ -48,7 +54,7 @@ CREATE TABLE registro_acceso (
     estado_acceso VARCHAR(15) DEFAULT 'Activo' CHECK (estado_acceso IN ('Activo', 'Finalizado'))
 );
 
-
+-- Datos de prueba
 INSERT INTO usuario (nombre, usuario, password_hash, rol) VALUES
 ('Carlos Pérez', 'operador1', 'hash_secure_123', 'Operador'),
 ('Laura Gómez', 'admin1', 'hash_secure_456', 'Administrador');
